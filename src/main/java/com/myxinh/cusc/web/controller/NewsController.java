@@ -21,6 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("http://localhost:4200")
 public class NewsController {
 
     @Autowired
@@ -44,7 +45,7 @@ public class NewsController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('WRITER','ADMIN')")
+//    @PreAuthorize("hasAnyRole('WRITER','ADMIN')")
     @GetMapping("/news/type") ResponseEntity<List<NewsViewDTO>> findAllByCondition(
             @RequestParam(value = "categoryId",defaultValue = "") String categoryId,
             @RequestParam(value = "menuId",defaultValue = "0") String menuId){
@@ -87,9 +88,9 @@ public class NewsController {
         if (newsUploadDTO.getNewsId().equals("")) {
             throw new BadRequestAlertException(newsUploadDTO.getNewsId());
         }
-        if (newsService.isMainNews(Integer.parseInt(newsUploadDTO.getCategoryId())).isPresent()){
-            throw new ExistMainNewsException(ErrorConstants.EXIST_MAIN_NEWS);
-        }
+//        if (newsService.isMainNews(Integer.parseInt(newsUploadDTO.getCategoryId())).isPresent()){
+//            throw new ExistMainNewsException(ErrorConstants.EXIST_MAIN_NEWS);
+//        }
         Optional<News> newsUpdate = newsService.updateNews(newsUploadDTO);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(new URI(SystemConstants.BASE_URL+"/news/"+newsUploadDTO.getNewsId()));

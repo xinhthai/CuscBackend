@@ -22,6 +22,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:4200")
 public class MenuController {
 
     @Autowired
@@ -67,11 +68,11 @@ public class MenuController {
         }
     }
 
-    @DeleteMapping("/categories/{menuId}")//Delete Menu existing in database
+    @DeleteMapping("/menu/{menuId}")//Delete Menu existing in database
     public ResponseEntity<Void> deleteCategory(@PathVariable int menuId) throws URISyntaxException {
         menuService.deleteMenu(menuId);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(new URI(SystemConstants.BASE_URL+"/categories/"+menuId));
+        headers.setLocation(new URI(SystemConstants.BASE_URL+"/menu/"+menuId));
         return ResponseEntity.noContent().headers(headers).build();
     }
 }
